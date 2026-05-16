@@ -46,8 +46,8 @@ class CONFIG:
     
     # Federated Learning
     NUM_CLIENTS = 5
-    CLIENTS_PER_ROUND = 5
-    GLOBAL_ROUNDS = 2
+    CLIENTS_PER_ROUND = 3
+    GLOBAL_ROUNDS = 1
     LOCAL_EPOCHS = 1
     BATCH_SIZE = 1
     GRAD_ACCUM_STEPS = 4
@@ -80,8 +80,8 @@ class CONFIG:
     RESULTS_DIR = "results"
     
     # Sample Limits for Quick Mode
-    MAX_TRAIN_SAMPLES_PER_CLIENT = 200
-    MAX_EVAL_SAMPLES = 500
+    MAX_TRAIN_SAMPLES_PER_CLIENT = 10
+    MAX_EVAL_SAMPLES = 20
     
     SEED = 42
 
@@ -574,7 +574,7 @@ def run_experiment():
                 round_comm_mb = 0
                 
                 for client_id in selected_clients:
-                    # print(f"  Client {client_id}")
+                    print(f"  Training Client {client_id}...")
                     # Create client dataset
                     indices = client_indices[client_id]
                     if CONFIG.MODE == "quick":
