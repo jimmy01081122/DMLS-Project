@@ -1,60 +1,61 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import numpy as np
 
-def plot_all(results_dir="results", filename="final_results.csv", suffix=""):
-    # Load final results
-    results_path = os.path.join(results_dir, filename)
-    if not os.path.exists(results_path):
-        print(f"Results file {results_path} not found.")
+def plot_final_report_charts(results_dir="results"):
+    # Load the main balanced results
+    balanced_path = os.path.join(results_dir, "final_results.csv")
+    if not os.path.exists(balanced_path):
+        print("Final results for balanced mode not found.")
         return
     
-    df = pd.read_csv(results_path)
+    df = pd.read_csv(balanced_path)
     
-    # 1. Accuracy Comparison by Method and Alpha
-    plt.figure(figsize=(10, 6))
-    methods = df['method'].unique()
-    alphas = df['alpha'].unique()
+    # Set professional style
+    plt.rcParams.update({'font.size': 12, 'figure.titlesize': 14})
     
-    x = range(len(methods))
-    width = 0.2
+    # 1. Bar Chart: Accuracy across Methods and Alphas
+    plt.figure(figsize=(12, 7))
+    methods = ["standard_lora", "ffa_lora", "rolora"]
+    alphas = sorted(df['alpha'].unique(), reverse=True)
     
-    for i, alpha in enumerate(alphas):
-        alpha_df = df[df['alpha'] == alpha]
-        # Ensure methods are in same order
-        accs = [alpha_df[alpha_df['method'] == m]['final_acc'].values[0] for m in methods]
-        plt.bar([p + i*width for p in x], accs, width, label=f'Alpha={alpha}')
+    n_groups = len(alphas)
+    index = np.arange(n_groups)
+    bar_width = 0.25
+    opacity = 0.8
     
-    plt.title(f'Final Accuracy Comparison {suffix}')
-    plt.xticks([p + width for p in x], methods)
-    plt.ylabel('Accuracy')
-    plt.ylim(0, 1.0)
+    for i, method in enumerate(methods):
+        method_data = df[df['method'] == method].sort_values('alpha', ascending=False)
+        plt.bar(index + i*bar_width, method_data['final_acc'], bar_width,
+                alpha=opacity, label=method.replace('_', ' ').upper())
+    
+    plt.xlabel('Dirichlet Alpha (Heterogeneity level)')
+    plt.ylabel('Test Accuracy')
+    plt.title('Performance comparison under varying Data Heterogeneity')
+    plt.xticks(index + bar_width, [f'Alpha={a}' for a in alphas])
     plt.legend()
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.savefig(os.path.join(results_dir, f'accuracy_comparison{suffix}.png'))
+    plt.grid(axis='y', linestyle='--', alpha=0.6)
+    plt.tight_layout()
+    plt.savefig(os.path.join(results_dir, 'accuracy_matrix.png'), dpi=300)
     plt.close()
     
-    # 2. Communication Cost vs Accuracy
+    # 2. Scatter Plot: Communication Efficiency vs Accuracy (Alpha=10.0)
     plt.figure(figsize=(10, 6))
-    for method in methods:
-        method_df = df[df['method'] == method]
-        plt.scatter(method_df['total_comm_mb'], method_df['final_acc'], s=100, label=method)
-        # Add alpha labels to dots
-        for _, row in method_df.iterrows():
-            plt.annotate(f"a={row['alpha']}", (row['total_comm_mb'], row['final_acc']))
+    alpha_10 = df[df['alpha'] == 10.0]
+    for _, row in alpha_10.iterrows():
+        plt.scatter(row['total_comm_mb'], row['final_acc'], s=200, label=row['method'])
+        plt.annotate(row['method'].upper(), (row['total_comm_mb'], row['final_acc']), 
+                     textcoords="offset points", xytext=(0,10), ha='center')
     
-    plt.title(f'Communication Cost vs Accuracy {suffix}')
-    plt.xlabel('Total Communication (MB)')
+    plt.xlabel('Total Communication Volume (MB)')
     plt.ylabel('Final Accuracy')
-    plt.legend()
-    plt.grid(True, linestyle='--', alpha=0.5)
-    plt.savefig(os.path.join(results_dir, f'comm_vs_acc{suffix}.png'))
+    plt.title('Efficiency Pareto Front (IID Case)')
+    plt.grid(True, alpha=0.3)
+    plt.savefig(os.path.join(results_dir, 'efficiency_frontier.png'), dpi=300)
     plt.close()
 
+    print("Regenerated report-ready charts: accuracy_matrix.png and efficiency_frontier.png")
+
 if __name__ == "__main__":
-    # Plot the balanced results
-    if os.path.exists("results/balanced_results.csv"):
-        plot_all(filename="balanced_results.csv", suffix="_balanced")
-    # Also plot the final_results.csv if it exists (for the quick run later)
-    if os.path.exists("results/final_results.csv"):
-        plot_all(filename="final_results.csv", suffix="_quick")
+    plot_final_report_charts()
