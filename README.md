@@ -57,5 +57,4 @@ This project is specifically tuned for the **NVIDIA RTX 3050 (6GB)**:
 *   **Memory**: NF4 quantization + Gradient Checkpointing + Sequential Processing.
 *   **Speed**: Optimized batch sizes and gradient accumulation steps.
 
-##  License
-MIT License
+
