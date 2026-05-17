@@ -36,7 +36,7 @@ from sklearn.metrics import accuracy_score, f1_score
 
 class CONFIG:
     # Experiment Mode: "quick" or "full"
-    MODE = "full" 
+    MODE = "quick" 
     
     # Model & Data
     MODEL_NAME = "Qwen/Qwen2.5-1.5B"
@@ -46,15 +46,15 @@ class CONFIG:
     
     # Federated Learning
     NUM_CLIENTS = 5
-    CLIENTS_PER_ROUND = 5
-    GLOBAL_ROUNDS = 10
+    CLIENTS_PER_ROUND = 3
+    GLOBAL_ROUNDS = 5
     LOCAL_EPOCHS = 1
     BATCH_SIZE = 4
     GRAD_ACCUM_STEPS = 1
     LEARNING_RATE = 2e-4
     
     # Non-IID
-    ALPHA_VALUES = [10.0, 1.0, 0.5, 0.1]
+    ALPHA_VALUES = [10.0, 0.5, 0.1]
     
     # Methods to compare
     METHODS = ["standard_lora", "ffa_lora", "rolora"]
@@ -80,14 +80,17 @@ class CONFIG:
     RESULTS_DIR = "results"
     
     # Sample Limits
-    MAX_TRAIN_SAMPLES_PER_CLIENT = 500
+    MAX_TRAIN_SAMPLES_PER_CLIENT = 300
     MAX_EVAL_SAMPLES = 1000
     
     SEED = 42
 
-if CONFIG.MODE == "full":
-    # These override if MODE is full, but we've balanced them above
-    pass
+if CONFIG.MODE == "quick":
+    CONFIG.ALPHA_VALUES = [0.5]
+    CONFIG.GLOBAL_ROUNDS = 1
+    CONFIG.CLIENTS_PER_ROUND = 3
+    CONFIG.MAX_TRAIN_SAMPLES_PER_CLIENT = 10
+    CONFIG.MAX_EVAL_SAMPLES = 20
 
 # Create directories
 os.makedirs(CONFIG.CHECKPOINT_DIR, exist_ok=True)
@@ -572,8 +575,7 @@ def run_experiment():
                     print(f"  Training Client {client_id}...")
                     # Create client dataset
                     indices = client_indices[client_id]
-                    if CONFIG.MODE == "quick":
-                        indices = indices[:CONFIG.MAX_TRAIN_SAMPLES_PER_CLIENT]
+                    indices = indices[:CONFIG.MAX_TRAIN_SAMPLES_PER_CLIENT]
                     client_dataset = Subset(tokenized_datasets["train"], indices)
                     
                     # Local Train

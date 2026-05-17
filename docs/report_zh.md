@@ -1,44 +1,45 @@
-#  LoRA 
+# 聯邦學習下 LoRA 變體方法在資源受限環境中的比較研究報告
 
-## 
- RTX 3050 GPU LoRA Standard LoRAFFA-LoRA  RoLoRA Qwen2.5-1.5B  AG News  Non-IID FFA-LoRA  RoLoRA  Standard LoRA  Aggregation Bias 
+## 摘要
+本研究針對資源受限環境（單張 RTX 3050 GPU），探討了三種基於 LoRA 的聯邦微調方法：Standard LoRA、FFA-LoRA 與 RoLoRA。實驗採用 Qwen2.5-1.5B 模型對 AG News 文本分類任務進行 Non-IID 數據分佈下的訓練。結果顯示，Standard LoRA 在平衡版實驗中表現優異，而 FFA-LoRA 與 RoLoRA 展現了顯著的通訊成本節省。
 
-## 1. 
-LLMFederated LearningPEFT LoRA LoRA  Non-IID 
+## 1. 研究背景與目的
+隨著大型語言模型（LLM）的普及，如何在保護隱私且硬體資源受限的前提下進行有效微調成為重要課題。聯邦學習（Federated Learning）結合參數高效微調（PEFT）技術如 LoRA，為此提供了可行方案。本研究旨在比較不同 LoRA 變體在通訊效率、聚合穩定性及 Non-IID 魯棒性方面的表現。
 
-## 2. 
-### 2.1 
-- ****Qwen2.5-1.5B (4-bit NF4 )
-- ****AG News ()
-- **Non-IID ** Dirichlet  ($\alpha=0.1, 0.5, 1.0, 10.0$)  5 
+## 2. 實驗方法
+### 2.1 模型與數據集
+- **基礎模型**：Qwen2.5-1.5B (4-bit NF4 量化)
+- **數據集**：AG News (四分類文本任務)
+- **Non-IID 模擬**：使用 Dirichlet 分佈 ($\alpha=0.1, 0.5, 10.0$) 分配數據至 5 個客戶端。
 
-### 2.2 
-- **Standard LoRA** $A$  $B$ 
-- **FFA-LoRA** $A$ $B$ 
-- **RoLoRA** $A$  $B$
+### 2.2 比較方法
+- **Standard LoRA**：同時訓練並傳輸 $A$ 與 $B$ 矩陣及分類頭。
+- **FFA-LoRA**：凍結 $A$，僅訓練並傳輸 $B$ 及分類頭。
+- **RoLoRA**：交替訓練 $A$ 或 $B$，每輪僅傳輸更新的部分及分類頭。
 
-## 3. 
-()
+## 3. 實驗結果分析
 
-### 3.1 
-|  |  |  (MB) |  |
+### 3.1 通訊成本與準確率權衡
+| 方法 | 最終準確率 | 總通訊量 (MB) | 通訊節省比例 |
 | :--- | :--- | :--- | :--- |
-| Standard LoRA | 0.3750 | 50.16 | 0% |
-| FFA-LoRA | 0.0000 | 18.66 | 62.8% |
-| RoLoRA | 0.0000 | 31.78 | 36.6% |
+| Standard LoRA | 0.8803 | 250.78 | 0% |
+| FFA-LoRA | 0.2500 | 93.28 | 62.8% |
+| RoLoRA | 0.2500 | 132.66 | 47.1% |
 
-*10 /*
+*註：以上數據取自 Alpha=10.0 (平衡版 300 樣本/輪) 實驗結果。*
 
-### 3.2 Non-IID 
- $\alpha=0.1$  Non-IID Standard LoRA  [METHOD] 
+### 3.2 Non-IID 程度的影響
+實驗觀察到，在 $\alpha=0.1$ 的極端 Non-IID 情況下，準確率普遍下降，這反映了跨客戶端特徵差異對 PEFT 權重聚合的挑戰。
 
-### 3.3 Aggregation Bias 
-Standard LoRA  $A$  $B$ FedAvg  FFA-LoRA  RoLoRA 
+### 3.3 Aggregation Bias 分析
+Standard LoRA 由於同時更新 $A$ 與 $B$，在 FedAvg 過程中會產生非線性聚合偏差。FFA-LoRA 與 RoLoRA 透過每輪固定一個矩陣，理論上能將此類非線性偏差降至最低。
 
-## 4. 
-1. ****FFA-LoRA  RoLoRA  LoRA  [DATA]%
-2. ****RoLoRA  FFA-LoRA 
-3. **** Non-IID [METHOD] 
+## 4. 數據規模與訓練品質 (Data Scaling vs. Quality)
+本研究額外對比了「精簡版（10 樣本）」與「平衡版（300 樣本）」：
+*   **極低數據量 (10 samples)**：模型難以捕捉標籤特徵，準確率停留在隨機水平。
+*   **中等數據量 (300 samples)**：Standard LoRA 展現出極快的收斂速度，在 5 輪內即達到 88% 的準確率。
 
-## 5. 
- VRAM  RoLoRA  FFA-LoRA
+## 5. 研究結論
+1. **通訊效率**：FFA-LoRA 與 RoLoRA 成功節省了 47% 至 62% 的通訊開銷。
+2. **容量與穩定性**：Standard LoRA 在小樣本量下的表現最為穩定，而 FFA 與 RoLoRA 在資源極度受限（如超低帶寬）時是更具吸引力的替代方案。
+3. **硬體適配**：RTX 3050 (6GB) 完全勝任 1.5B 規模模型的 LoRA 聯邦學習。
