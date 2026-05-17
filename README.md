@@ -17,7 +17,7 @@ The goal is to evaluate the performance, communication cost, and aggregation sta
 *   **Sequential Client Simulation**: Mimics a multi-client FL environment on a single GPU.
 *   **Non-IID Simulation**: Implements Dirichlet distribution split ($\alpha \in \{10.0, 0.5, 0.1\}$).
 *   **Memory-Efficient Analytics**: Layer-by-layer **Aggregation Bias** calculation to prevent OOM errors.
-*   **Automated Reporting**: Generates both academic LaTeX (English) and general Markdown (Chinese) reports.
+*   **Reporting**: Both academic LaTeX (English) and general Markdown (Chinese) reports.
 
 ##  Project Structure
 
