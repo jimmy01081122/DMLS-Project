@@ -10,6 +10,19 @@ The goal is to evaluate the performance, communication cost, and aggregation sta
 1.  **Standard LoRA**: Full updates and transmission of $A$ and $B$ matrices.
 2.  **FFA-LoRA (Frozen-A)**: Freezes matrix $A$ after initialization; only $B$ is trained and transmitted.
 3.  **RoLoRA (Rotating LoRA)**: Alternates training between $A$ and $B$ across rounds to reduce per-round communication.
+### Quick mode
+  │ 方法          │ Final Acc │ Final Loss │ Total Comm │
+  ├───────────────┼───────────┼────────────┼────────────┤
+  │ Standard LoRA │ 0.1875    │ 1.5853     │ 50.16 MB   │
+  │ FFA-LoRA      │ 0.6250    │ 1.0208     │ 18.66 MB   │
+  │ RoLoRA        │ 0.2188    │ 2.0257     │ 18.66 MB   │
+
+### Full mode
+| 方法 | Final Acc | Final Loss | Total Comm | 節省比例 |
+| :--- | :--- | :--- | :--- | :--- |
+| Standard LoRA | 0.8753 | 0.3622 | 250.78 | 0% |
+| FFA-LoRA | 0.8380 | 0.4637 | 93.28 | 62.8% |
+| RoLoRA | 0.8539 | 0.4192 | 119.53 | 52.3% |
 
 ##  Key Features
 
