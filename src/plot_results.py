@@ -77,6 +77,27 @@ def plot_comprehensive_results(results_dir="results", log_path="logs/full_experi
     plt.legend()
     plt.tight_layout()
     plt.savefig(os.path.join(results_dir, 'accuracy_comparison.png'), dpi=300)
+    plt.savefig(os.path.join(results_dir, 'accuracy_matrix.png'), dpi=300) # [REQ] Alias for matrix
+    plt.close()
+
+    # --------------------------------------------------
+    # Plot 1.5: Efficiency Frontier (Accuracy vs Comm Volume)
+    # --------------------------------------------------
+    plt.figure(figsize=(10, 6))
+    for method in methods:
+        method_data = df[df['method'] == method]
+        # Use Alpha 10.0 for the benchmark frontier
+        plt.scatter(method_data['total_comm_mb'], method_data['final_acc'], s=100, label=method.upper())
+        for i, row in method_data.iterrows():
+            plt.annotate(f"a={row['alpha']}", (row['total_comm_mb'], row['final_acc']), textcoords="offset points", xytext=(0,10), ha='center')
+            
+    plt.xlabel('Total Communication Volume (MB)')
+    plt.ylabel('Final Test Accuracy')
+    plt.title('Efficiency Frontier: Accuracy vs. Communication Overhead')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig(os.path.join(results_dir, 'efficiency_frontier.png'), dpi=300)
     plt.close()
 
     # --------------------------------------------------
