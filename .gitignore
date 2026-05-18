@@ -152,7 +152,7 @@ cython_debug/
 
 # Project specific
 checkpoints/
-#results/
+
 data/
 drive_mock/
 logs/
