@@ -151,11 +151,11 @@ cython_debug/
 .vscode/
 
 # Project specific
-checkpoints/
+# checkpoints/
 
 data/
 drive_mock/
-logs/
+# logs/
 outputs/
 #*.png
 #*.csv

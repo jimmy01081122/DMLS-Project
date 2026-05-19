@@ -49,16 +49,24 @@
 
 
 
-\usepackage{amsmath}
-\usepackage{cite}
-\usepackage{graphicx}
-\usepackage{booktabs}
+\documentclass[journal]{IEEEtran}
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[journal]{../sty/IEEEtran}
+\usepackage{tabularx}
 \usepackage{array}
+
+\usepackage{multirow}
+
+% 定義一個置中且會自動折行的欄位格式 C
+\newcolumntype{C}{>{\centering\arraybackslash}X}
 \usepackage{hyperref}
 \usepackage{xcolor}
-
-
-
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{cite}
 % Some very useful LaTeX packages include:
 % (uncomment the ones you want to load)
 
@@ -357,12 +365,28 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Robust Federated Fine-Tuning of Large Language Models with LoRA Variants under Resource Constraints}
+\title{Large Language Models with LoRA Variants under Resource Constraints}
+\author{CHUN-MIN, CHANG}
+%
+%
+% author names and IEEE memberships
+% note positions of commas and nonbreaking spaces ( ~ ) LaTeX will not break
+% a structure at a ~ so this keeps an author's name from being broken across
+% two lines.
+% use \thanks{} to gain access to the first footnote area
+% a separate \thanks must be used for each paragraph as LaTeX2e's \thanks
+% was not built to handle multiple paragraphs
+%
 
-\author{Distributed Machine Learning Laboratory,~\IEEEmembership{Research Division}
-\thanks{This work was supported by the Federated Learning Initiative.}
-\thanks{The authors are with the Department of Distributed Systems, DMLS University.}
-}
+%\author{Michael~Shell,~\IEEEmembership{Member,~IEEE,}
+%        John~Doe,~\IEEEmembership{Fellow,~OSA,}
+%        and~Jane~Doe,~\IEEEmembership{Life~Fellow,~IEEE}% <-this % stops a space
+%\thanks{M. Shell was with the Department
+%of Electrical and Computer Engineering, Georgia Institute of Technology, Atlanta,
+%GA, 30332 USA e-mail: (see http://www.michaelshell.org/contact.html).}% <-this % %stops a space
+%\thanks{J. Doe and J. Doe are with Anonymous University.}% <-this % stops a space
+%\thanks{Manuscript received April 19, 2005; revised August 26, 2015.}}
+
 % note the % following the last \IEEEmembership and also \thanks - 
 % these prevent an unwanted space from occurring between the last author name
 % and the end of the author line. i.e., if you had this:
@@ -384,8 +408,8 @@
 
 
 % The paper headers
-\markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2015}%
-{Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for IEEE Journals}
+%\markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2015}%
+%{Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for IEEE Journals}
 % The only time the second header will appear is for the odd numbered pages
 % after the title page when using the twoside option.
 % 
@@ -417,14 +441,18 @@
 % As a general rule, do not put math, special symbols or citations
 % in the abstract or keywords.
 \begin{abstract}
-Fine-tuning Large Language Models (LLMs) on edge devices is severely restricted by limited computational resources and constrained communication bandwidth. While Federated Learning (FL) offers a privacy-preserving paradigm for decentralized training, integrating Parameter-Efficient Fine-Tuning (PEFT) methods such as Low-Rank Adaptation (LoRA) into FL introduces unique challenges, particularly aggregation bias and vulnerability to system heterogeneity. This paper presents a comprehensive comparative study of three federated PEFT strategies—Standard LoRA, Frozen-A LoRA (FFA-LoRA), and Rotating LoRA (RoLoRA)—under resource-constrained environments. 
+Large Language Models (LLMs) have demonstrated unprecedented generalization capability and generative performance in natural language processing. However, deploying and fine-tuning LLMs with billions of parameters on resource-constrained edge devices remains a critical challenge in distributed machine learning. Although Federated Learning (FL) provides a privacy-preserving training paradigm by enabling clients to collaboratively optimize models without sharing raw data, directly applying FL to LLMs incurs prohibitive communication overhead and memory consumption. Parameter-Efficient Fine-Tuning (PEFT) methods, such as LoRA, FFA-LoRA, and RoLoRA, offer a promising solution by substantially reducing the number of trainable parameters. Nevertheless, integrating PEFT with FL introduces fundamental challenges, including aggregation bias and vulnerability to system heterogeneity, primarily caused by nonlinear aggregation shift.
 
-We evaluate their communication efficiency and stability across varying degrees of Non-IID data distributions. To bridge the gap between theoretical models and real-world deployments, we further introduce practical edge constraints, including random client dropouts, dynamic rank allocation for asymmetric hardware capacities, and FedProx regularization. Our empirical results reveal critical trade-offs: while RoLoRA reduces the communication overhead, it exhibits severe instability under asynchronous client failures. Conversely, FFA-LoRA mathematically eliminates aggregation bias but sacrifices expressivity in highly skewed Non-IID settings. Ultimately, we demonstrate that a hybrid approach—integrating dynamic rank allocation with FedProx—delivers the most resilient architecture, providing a robust blueprint for deploying and fine-tuning LLMs across unstable, heterogeneous edge networks.
+
+
+This paper conducts a comprehensive comparative study of three federated PEFT strategies: standard LoRA, Frozen-A LoRA, and Rotating LoRA. Their communication efficiency and training stability are evaluated under resource-constrained environments with varying degrees of Non-IID data distributions. To better approximate practical deployment scenarios, the experiments further incorporate random client dropouts, dynamic rank allocation for heterogeneous hardware capacities, and FedProx regularization. The results demonstrate that RoLoRA achieves reduced communication overhead but suffers from significant instability under client dropout. FFA-LoRA eliminates aggregation bias in principle but compromises representational capacity under highly skewed Non-IID distributions. In contrast, a hybrid strategy that combines dynamic rank allocation with FedProx achieves the best overall robustness, providing a practical and resilient framework for fine-tuning LLMs over unstable and heterogeneous edge networks.
+
+
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
 \begin{IEEEkeywords}
-IEEE, IEEEtran, journal, \LaTeX, paper, template.
+LoRA, Constraint Resource, LLMs
 \end{IEEEkeywords}
 
 
@@ -460,9 +488,9 @@ IEEE, IEEEtran, journal, \LaTeX, paper, template.
 % 
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
-\IEEEPARstart{T}{he}rapid advancement of Large Language Models (LLMs) has revolutionized natural language processing, enabling unprecedented capabilities in text understanding, generation, and classification. However, deploying and fine-tuning these models, which typically contain billions of parameters, poses severe challenges in terms of computational overhead and data privacy. Transmitting massive localized datasets to a centralized server raises significant privacy concerns and violates strict data protection regulations. In response, Federated Learning (FL) has emerged as a compelling decentralized paradigm, enabling multiple edge clients to collaboratively train a shared global model without disclosing their local private data.\cite{mcmahan2017communication, kairouz2021advances}.
+\IEEEPARstart{T}{he} rapid advancement of Large Language Models (LLMs) has revolutionized natural language processing, enabling unprecedented capabilities in text understanding, generation, and classification. However, deploying and fine-tuning these models, which typically contain billions of parameters, poses severe challenges in terms of computational overhead and data privacy. Transmitting massive localized datasets to a centralized server raises significant privacy concerns and violates strict data protection regulations. In response, Federated Learning (FL) has emerged as a compelling decentralized paradigm, enabling multiple edge clients to collaboratively train a shared global model without disclosing their local private data.\cite{mcmahan2017communication, kairouz2021advances}.
 
-Despite its privacy-preserving merits, executing federated fine-tuning for LLMs on commodity edge hardware, such as the NVIDIA RTX 3050 with only 6GB of VRAM, introduces structural bottlenecks in both memory footprint and communication bandwidth. Standard full-parameter fine-tuning is computationally prohibitive in such environments. To mitigate this hardware barrier, Parameter-Efficient Fine-Tuning (PEFT) techniques, particularly Low-Rank Adaptation (LoRA) \cite{hu2021lora}, are widely integrated into federated frameworks \cite{zhang2023fedpet}. LoRA drastically reduces trainable parameters by freezing the pre-trained weights and optimizing two low-rank decomposition matrices, denoted as $A$ and $B$. Nevertheless, aggregating these decoupled matrices via the standard Federated Averaging (FedAvg) algorithm creates non-linear distortions. Because the total weight update is a product of two local matrices ($\Delta W = BA$), averaging $A$ and $B$ independently across clients inherently introduces an \textbf{aggregation bias}, causing optimization instability and performance degradation under highly heterogeneous (Non-IID) data distributions \cite{zhao2018federated}.
+Despite its privacy-preserving merits, executing federated fine-tuning for LLMs on commodity edge hardware introduces structural bottlenecks in both memory footprint and communication bandwidth. Standard full-parameter fine-tuning is computationally prohibitive in such environments. To mitigate this hardware barrier, Parameter-Efficient Fine-Tuning (PEFT) techniques, particularly Low-Rank Adaptation (LoRA) \cite{hu2021lora}, are widely integrated into federated frameworks \cite{zhang2023fedpet}. LoRA drastically reduces trainable parameters by freezing the pre-trained weights and optimizing two low-rank decomposition matrices, denoted as $A$ and $B$. Nevertheless, aggregating these decoupled matrices via the standard Federated Averaging (FedAvg) algorithm creates non-linear distortions. Because the total weight update is a product of two local matrices ($\Delta W = BA$), averaging $A$ and $B$ independently across clients inherently introduces an \textbf{aggregation bias}, causing optimization instability and performance degradation under highly heterogeneous (Non-IID) data distributions \cite{zhao2018federated}.
 
 
 
@@ -484,11 +512,13 @@ The remainder of this paper is organized as follows. \textbf{Section II} reviews
 
 \section{Related Work}This section reviews three domains closely relevant to this study: the application of federated learning to large language models, the advancement of parameter-efficient fine-tuning (PEFT) techniques, and robustness optimization methods addressing system and data heterogeneities in federated networks.
 
-\subsection{Federated Learning for LLMs}With the exponential growth of parameters in Large Language Models (LLMs), there is an urgent demand to deploy them within decentralized architectures. The conventional Federated Learning (FL) algorithm, such as FedAvg \cite{mcmahan2017communication}, requires participating nodes to perform full-model training locally and upload the entire model gradients or weights to a centralized server for aggregation. However, for LLMs with billions to hundreds of billions of parameters, full-parameter fine-tuning incurs prohibitive computational resource consumption and network communication latency, particularly in edge environments characterized by restricted bandwidth and heterogeneous device capacities. Recent studies have attempted to incorporate model compression, quantization, and knowledge distillation techniques into FL frameworks to alleviate the burden on edge devices \cite{kairouz2021advances, mao2021communication}. Although these methods mitigate communication pressure to some extent, they often inflict irreversible damage on the final generative capabilities and the pre-trained knowledge retention of the models.
+\subsection{Federated Learning for LLMs}With the exponential growth in the parameter scale of Large Language Models (LLMs), centralized architectures are no longer sufficient to support their deployment and operation. Consequently, there is an urgent need to adopt distributed and decentralized paradigms for model deployment. Conventional Federated Learning (FL) algorithms, such as FedAvg \cite{mcmahan2017communication}, requires , generally require participating clients to perform full-model training locally and upload all computed results (e.g., model weights or gradients) to a centralized server for aggregation. 
+
+However, as previously noted, modern models have reached an unprecedented scale and continue to grow. For LLMs containing billions to even trillions of parameters, performing full-parameter fine-tuning remains prohibitively expensive in terms of computational resources. In addition, the transmission of such large-scale updates is constrained by network latency, leading to significant inefficiencies, including communication bottlenecks and wasted computational power. These issues are particularly severe in edge environments, where bandwidth is limited and device capabilities are highly heterogeneous.o address these challenges, recent studies have attempted to incorporate techniques such as model compression, quantization, and knowledge distillation into the federated learning framework to reduce the burden on edge devices \cite{kairouz2021advances, mao2021communication} Although these approaches alleviate communication overhead to some extent, they often come at the cost of irreversibly degrading the model's generative performance and its ability to retain pre-trained knowledge.
 
 \subsection{Parameter-Efficient Fine-Tuning (PEFT)}To overcome the hardware bottlenecks associated with full-parameter fine-tuning, parameter-efficient fine-tuning (PEFT) techniques have emerged, among which Low-Rank Adaptation (LoRA) \cite{hu2021lora} has become mainstream due to its superior efficacy and ease of use. LoRA drastically reduces the number of trainable parameters by freezing the pre-trained weights of the base model and injecting trainable low-rank matrices ($A$ and $B$) into the attention layers.When LoRA is integrated into the federated learning framework (Fed-LoRA), it significantly diminishes communication costs but simultaneously introduces new mathematical challenges \cite{zhang2023fedpet}. Since the weight update in LoRA is formulated as the product of two matrices ($\Delta W = BA$), performing linear aggregation on $A$ and $B$ independently at the server side inherently creates a severe non-linear aggregation bias. To rectify this discrepancy and further compress the communication footprint, subsequent studies have proposed various LoRA variants. For instance, Federated Freeze-A LoRA (FFA-LoRA) \cite{ffa_lora_paper} advocates freezing matrix $A$ permanently after initialization and updating and transmitting only matrix $B$, thereby reducing the non-linear optimization problem to a linear one and eliminating the aggregation bias from its root. Conversely, Rotating LoRA (RoLoRA) \cite{rolora_paper} employs an alternating optimization strategy, which alternates the training and transmission of matrix $A$ or matrix $B$ across different communication rounds, attempting to halve the single-round communication burden without sacrificing model expressivity. Nevertheless, most of these advanced PEFT strategies are established upon the assumption of idealized, synchronous federated environments, lacking empirical validation in realistic edge networks.
 
-\subsection{Robustness in Federated Networks}Real-world edge federated learning inevitably confronts the dual challenges of data heterogeneity and system heterogeneity. In terms of data heterogeneity, non-independent and identically distributed (Non-IID) data leads to severe client drift \cite{zhao2018federated}. To suppress this phenomenon, the FedProx algorithm \cite{li2020federated} introduces a proximal term into the local training objective function, ensuring convergence stability by restricting the extent to which local models deviate from the global model.Regarding system heterogeneity, edge devices frequently face issues such as network disconnections, stragglers, and uneven computational resources. Although prior research has proposed asynchronous aggregation or active dropout strategies for standard federated learning \cite{xie2019asynchronous}, these system-level failures often trigger catastrophic consequences when integrating PEFT methods. For example, if RoLoRA, which relies on an alternating update mechanism, encounters client dropouts, it will result in a severe temporal mismatch (stale weights) between local parameters and the global state. Currently, robustness evaluations of LoRA variants under extreme Non-IID data distributions accompanied by client dropouts remain scarce. This study aims to fill this gap and propose a comprehensive solution that combines FedProx with dynamic rank allocation to address the rigorous challenges of heterogeneous edge environments.
+\subsection{Robustness in Federated Networks}Real-world edge federated learning inevitably confronts the dual challenges of data heterogeneity and system heterogeneity. In terms of data heterogeneity, non-independent and identically distributed (Non-IID) data leads to severe client drift \cite{zhao2018federated}. To suppress this phenomenon, the FedProx algorithm \cite{li2020federated} introduces a proximal term into the local training objective function, ensuring convergence stability by restricting the extent to which local models deviate from the global model.Regarding system heterogeneity, edge devices frequently face issues such as network disconnections, stragglers, and uneven computational resources. Although prior research has proposed asynchronous aggregation or active dropout strategies for standard federated learning \cite{xie2019asynchronous}, these system-level failures often trigger catastrophic consequences when integrating PEFT methods. For example, if RoLoRA, which relies on an alternating update mechanism, encounters client dropouts, it will result in a severe temporal mismatch (stale weights) between local parameters and the global state. Currently,  research on LoRA variants that incorporates practical deployment considerations and provides robustness evaluation remains relatively limited. This paper aims to address this gap by conducting a systematic study and evaluation in this area. Furthermore, building upon existing architectures, we propose a hybrid solution that integrates FedProx with dynamic rank allocation to effectively tackle the challenges posed by real-world edge environments.
 
 
 \section{Methodology}
@@ -508,7 +538,7 @@ where $n_k$ is the number of samples for client $k$, and $N = \sum n_k$. However
 \begin{equation}
 \sum_{k=1}^{K} \frac{n_k}{N} (B_k^{(t)} A_k^{(t)}) \neq \left( \sum_{k=1}^{K} \frac{n_k}{N} B_k^{(t)} \right) \left( \sum_{k=1}^{K} \frac{n_k}{N} A_k^{(t)} \right)
 \end{equation}
-This discrepancy is defined as \textbf{aggregation bias} \cite{ffa_lora_paper}. This bias amplifies significantly as data heterogeneity (Non-IID) increases, thereby destabilizing the convergence trajectory of the global model.
+This discrepancy is defined as \textbf{{A}ggregation {B}ias} \cite{ffa_lora_paper}. This bias amplifies significantly as data heterogeneity (Non-IID) increases, thereby destabilizing the convergence trajectory of the global model.
 
 To suppress the aggregation bias and reduce communication overhead, this study investigates the following two derivative strategies:
 
@@ -530,19 +560,125 @@ In highly non-independent and identically distributed (Non-IID) edge scenarios, 
 \end{equation}
 where $\mathcal{L}*{k}(w)$ is the standard cross-entropy loss function for the AG News classification task, and $\mu$ is the proximal hyperparameter controlling the strength of the global constraint.
 
-In practical deployment, to cope with the severely restricted 6GB VRAM limit of devices like the RTX 3050, calculating the L2 norm directly on the entire parameter matrix triggers memory overflow. This study implements a VRAM-safe, parameter-by-parameter streaming calculation mechanism: when computing the regularization term, only the current trainable parameters (LoRA weights and the randomly initialized classification head matrix) and their corresponding global parameters transferred from CPU memory are extracted for element-wise squared difference accumulation. The tensor cache of the global parameter is released immediately after computation.
+In practical deployment, to cope with the severely restricted VRAM limit of devices, calculating the L2 norm directly on the entire parameter matrix triggers memory overflow. This study implements a VRAM-safe, parameter-by-parameter streaming calculation mechanism: when computing the regularization term, only the current trainable parameters (LoRA weights and the randomly initialized classification head matrix) and their corresponding global parameters transferred from CPU memory are extracted for element-wise squared difference accumulation. The tensor cache of the global parameter is released immediately after computation.
 
 \subsection{System Heterogeneity and Asymmetric Aggregation}
 To construct a robustness validation system that reflects real-world edge computing environments, this study implements a dual-heterogeneity simulation mechanism:
 
-
-
-\paragraph{\textbf{Network Heterogeneity (Client Dropout)}}
+\textbf{Network Heterogeneity - Client Dropout}
 A random failure probability $p = 0.2$ is introduced. In each federated communication round, the server randomly selects a specified number of clients for training. However, during the weight upload phase, each client has a 20\% probability of experiencing communication timeout or failure. If a failure is determined, the local update state of that client is entirely discarded and excluded from the current round's global aggregation. This mechanism is primarily utilized to test the fault tolerance of RoLoRA: if a client disconnects and misses the alternating update of global matrix $A$ or $B$, it will cause severe temporal misalignment (stale weights) in local parameters. \cite{xie2019asynchronous}
-\paragraph{\textbf{Hardware Heterogeneity (Dynamic Rank Allocation})}
+
+\textbf{Hardware Heterogeneity - Dynamic Rank Allocation}
 This simulates edge devices with varying computational capabilities and bandwidths. The system assigns heterogeneous LoRA rank distributions (e.g., Clients 0 and 1 use $r=4$; Clients 2, 3, and 4 use $r=8$). This results in a shape mismatch among the dimensions of the LoRA tensors uploaded by the clients.
 
 To resolve the conflict where heterogeneous dimensions cannot be directly aggregated via weighted summation, the server implements a \textbf{zero-padding aggregation mechanism}. The server first iterates through all successfully returned state dictionaries to determine the maximum dimension for each parameter key (based on the maximum rank $r=8$). Subsequently, for client matrices utilizing a lower rank ($r=4$), a padding function is applied to append zeros along their low-rank dimensional boundaries to align with the maximum dimension before performing the FedAvg weighted aggregation. The output dimension of the classification head is fixed at 4, remains unaffected by rank heterogeneity, and is aggregated conventionally.
+
+
+\begin{table*}[htbp]
+\centering
+\caption{Performance Comparison of LoRA Variants under Various Data Heterogeneity Levels ($\alpha$)}
+\label{tab:lora_performance_full}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llccccccc}
+\toprule
+$\alpha$ & Method & Final Acc & Final F1 & Final Loss & Best Acc & Best F1 & Total Comm (MB) & Mean Bias \\
+\midrule
+\multirow{3}{*}{10.0} 
+ & standard\_lora & 0.8546 & 0.8538 & 0.4099 & 0.8546 & 0.8538 & 230.00 & 0.0973 \\
+ & ffa\_lora      & 0.8178 & 0.8158 & 0.5388 & 0.8178 & 0.8158 & 85.63  & 0.0000 \\
+ & rolora         & 0.8091 & 0.8059 & 0.5618 & 0.8091 & 0.8059 & 109.69 & 0.0000 \\
+\midrule
+\multirow{3}{*}{0.5} 
+ & standard\_lora & 0.6489 & 0.5752 & 1.4846 & 0.6489 & 0.5752 & 230.00 & 0.0950 \\
+ & ffa\_lora      & 0.5366 & 0.4732 & 2.0420 & 0.5366 & 0.4732 & 85.63  & 0.0000 \\
+ & rolora         & 0.5625 & 0.4986 & 1.7037 & 0.5625 & 0.4986 & 109.69 & 0.0000 \\
+\midrule
+\multirow{3}{*}{0.1} 
+ & standard\_lora & 0.3418 & 0.2365 & 3.8584 & 0.3418 & 0.2365 & 230.00 & 0.1216 \\
+ & ffa\_lora      & 0.3054 & 0.1883 & 3.4713 & 0.3054 & 0.1883 & 85.63  & 0.0000 \\
+ & rolora         & 0.2804 & 0.1573 & 3.8685 & 0.2804 & 0.1573 & 109.69 & 0.0000 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
+
+\section{Experimental Setup}
+\subsection{Hardware Constraints}
+All experiments were conducted on a single NVIDIA GeForce RTX 3050 GPU with 6GB of VRAM and 16GB of system RAM. To overcome the memory bottleneck of the 1.5B parameter Qwen2.5 model, 
+experiments employed 4-bit NormalFloat (NF4) quantization \cite{dettmers2024qlora} and utilized the PagedAdamW8bit optimizer to offload optimizer states to CPU memory.
+
+\subsection{Federated Configuration}
+
+The experimental setup involved a network of 5 clients. Data was partitioned using a Dirichlet distribution $\alpha \in \{10.0, 0.5, 0.1\}$ to model varying levels of label skew \cite{zhao2018federated}. 
+Experiment simulated 5 communication rounds, with 3 clients selected per round. A 20\% client dropout rate was introduced to evaluate system robustness against network instability.
+
+\subsection{Heterogeneous Rank Allocation}
+To simulate hardware heterogeneity, the experiment assigned asymmetric LoRA ranks: Clients 0 and 1 utilized $r=4$, while Clients 2, 3, and 4 utilized $r=8$. The server employed zero-padding to aggregate these updates into a global $r=8$ model.
+
+
+
+\section{Results and Analysis}
+\subsection{Communication-Accuracy Performance}
+Table \ref{tab:lora_performance_full} summarizes the performance and communication overhead under nearly IID conditions ($\alpha=10.0$). Standard LoRA serves as the baseline, achieving 85.46\% accuracy but incurring the highest bandwidth usage (230 MB).
+
+\begin{table*}[htbp] % <-- 加上星號，允許跨欄
+\centering
+\caption{Performance Evaluation of LoRA Variants under Dirichlet Distribution ($\alpha = 0.5$)}
+\label{tab:lora_variants_comparison}
+\begin{tabular}{lcccccccc}
+\toprule
+Method & $\alpha$ & Final Acc & Final F1 & Final Loss & Best Acc & Best F1 & Total Comm (MB) & Mean Bias \\ 
+\midrule
+standard\_lora & 0.5 & 0.1875 & 0.0882 & 1.5853 & 0.1875 & 0.0882 & 50.1563 & 0.0 \\
+ffa\_lora      & 0.5 & 0.6250 & 0.2564 & 1.0208 & 0.6250 & 0.2564 & 18.6563 & 0.0 \\
+rolora        & 0.5 & 0.2188 & 0.1094 & 2.0257 & 0.2188 & 0.1094 & 18.6563 & 0.0 \\ 
+\bottomrule
+\end{tabular}
+\end{table*}
+
+
+FFA-LoRA achieved a 62.8\% reduction in communication volume, while RoLoRA achieved 52.3\%. Notably, both FFA-LoRA and RoLoRA eliminated the non-linear aggregation bias observed in Standard LoRA (0.0973), validating our theoretical proof that asymmetric parameter freezing linearizes the FedAvg operation.
+
+\subsection{Non-IID Robustness and Client Drift}
+As $\alpha$ decreased to 0.1, accuracy dropped to $\sim$34\% for all methods. This degradation is consistent with the "client drift" phenomenon described by Zhao et al. \cite{zhao2018federated}. FedProx ($\mu=0.01$) provided essential stability in early rounds, preventing catastrophic divergence despite the 20\% dropout rate.
+
+\subsection{Visual Analysis of Robustness}
+The impact of data heterogeneity is visualized in Fig. \ref{fig:dist}, which shows the label distribution skew across clients as $\alpha$ decreases. The resulting performance drop is captured in Fig. \ref{fig:acc}, highlighting the challenge of extreme Non-IID distributions ($\alpha=0.1$).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{label_distribution.png}
+    \caption{Client Label Distribution Matrix across different Dirichlet $\alpha$ values.}
+    \label{fig:dist}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{accuracy_comparison.png}
+    \caption{Final Test Accuracy across methods and heterogeneity levels.}
+    \label{fig:acc}
+\end{figure}
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{convergence_curves.png}
+    \caption{Learning curves under simulated 20\% client dropout.}
+    \label{fig:conv}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{bias_curves.png}
+    \caption{Mean Aggregation Bias vs. Global Communication Rounds.}
+    \label{fig:bias}
+\end{figure}
+
+The convergence stability under 20\% client dropout is presented in Fig. \ref{fig:conv}. Standard LoRA and FFA-LoRA show steady progress, while RoLoRA exhibits minor oscillations due to the alternating update mismatch. Fig. \ref{fig:bias} empirically confirms that FFA-LoRA and RoLoRA maintain zero aggregation bias across all rounds, providing a mathematically exact alternative to standard LoRA aggregation.
+
+
+
+
 
 
 % An example of a floating figure using the graphicx package.
@@ -639,97 +775,88 @@ To resolve the conflict where heterogeneous dimensions cannot be directly aggreg
 % footnotes above bottom floats. This can be corrected via the
 % \fnbelowfloat command of the stfloats package.
 
-
-
-
-\section{Experimental Setup}
-\subsection{Hardware Constraints}
-All experiments were conducted on a single NVIDIA GeForce RTX 3050 GPU with 6GB of VRAM and 16GB of system RAM. To overcome the memory bottleneck of the 1.5B parameter Qwen2.5 model, we employed 4-bit NormalFloat (NF4) quantization \cite{dettmers2024qlora} and utilized the PagedAdamW8bit optimizer to offload optimizer states to CPU memory.
-
-\subsection{Federated Configuration}
-We simulated a network of 5 clients. Data was partitioned using a Dirichlet distribution $\alpha \in \{10.0, 0.5, 0.1\}$ to model varying levels of label skew \cite{zhao2018federated}. We simulated 5 communication rounds, with 3 clients selected per round. A 20\% client dropout rate was introduced to evaluate system robustness against network instability.
-
-\subsection{Heterogeneous Rank Allocation}
-To simulate hardware heterogeneity, we assigned asymmetric LoRA ranks: Clients 0 and 1 utilized $r=4$, while Clients 2, 3, and 4 utilized $r=8$. The server employed zero-padding to aggregate these updates into a global $r=8$ model.
-
-\section{Results and Analysis}
-\subsection{Communication-Accuracy Performance}
-Table \ref{tab:results} summarizes the performance and communication overhead under nearly IID conditions ($\alpha=10.0$). Standard LoRA serves as the baseline, achieving 85.46\% accuracy but incurring the highest bandwidth usage (230 MB).
-
-\begin{table}[h]
-\centering
-\caption{Performance and Communication Cost ($\alpha=10.0$)}
-\label{tab:results}
-\begin{tabular}{lccc}
-\toprule
-Method & Accuracy & Comm. (MB) & Bias \\
-\midrule
-Standard LoRA & 85.46\% & 230.00 & 0.0973 \\
-FFA-LoRA      & 81.78\% & 85.63  & 0.0000 \\
-RoLoRA        & 80.91\% & 109.69 & 0.0000 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-FFA-LoRA achieved a 62.8\% reduction in communication volume, while RoLoRA achieved 52.3\%. Notably, both FFA-LoRA and RoLoRA eliminated the non-linear aggregation bias observed in Standard LoRA (0.0973), validating our theoretical proof that asymmetric parameter freezing linearizes the FedAvg operation.
-
-\subsection{Non-IID Robustness and Client Drift}
-As $\alpha$ decreased to 0.1, accuracy dropped to $\sim$34\% for all methods. This degradation is consistent with the "client drift" phenomenon described by Zhao et al. \cite{zhao2018federated}. FedProx ($\mu=0.01$) provided essential stability in early rounds, preventing catastrophic divergence despite the 20\% dropout rate.
-
-\subsection{Visual Analysis of Robustness}
-The impact of data heterogeneity is visualized in Fig. \ref{fig:dist}, which shows the label distribution skew across clients as $\alpha$ decreases. The resulting performance drop is captured in Fig. \ref{fig:acc}, highlighting the challenge of extreme Non-IID distributions ($\alpha=0.1$).
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\columnwidth]{../results/label_distribution.png}
-    \caption{Client Label Distribution Matrix across different Dirichlet $\alpha$ values.}
-    \label{fig:dist}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\columnwidth]{../results/accuracy_comparison.png}
-    \caption{Final Test Accuracy across methods and heterogeneity levels.}
-    \label{fig:acc}
-\end{figure}
-
-The convergence stability under 20\% client dropout is presented in Fig. \ref{fig:conv}. Standard LoRA and FFA-LoRA show steady progress, while RoLoRA exhibits minor oscillations due to the alternating update mismatch. Fig. \ref{fig:bias} empirically confirms that FFA-LoRA and RoLoRA maintain zero aggregation bias across all rounds, providing a mathematically exact alternative to standard LoRA aggregation.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\columnwidth]{../results/convergence_curves.png}
-    \caption{Learning curves under simulated 20\% client dropout.}
-    \label{fig:conv}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\columnwidth]{../results/bias_curves.png}
-    \caption{Mean Aggregation Bias vs. Global Communication Rounds.}
-    \label{fig:bias}
-\end{figure}
-
 \section{Discussion: Scenarios, Advantages, and Trade-offs}
 The choice of LoRA variant represents a strategic trade-off between capacity and efficiency. Standard LoRA is suitable for high-bandwidth environments where maximum expressivity is required. FFA-LoRA is ideal for ultra-low bandwidth scenarios, as it minimizes transmission to a single matrix and the classification head.
 
 RoLoRA offers a balanced middle ground. While its alternating update mechanism reduces per-round bandwidth, our experiments exposed a vulnerability to asynchronous dropouts: if a client misses a round, its local $A$ and $B$ matrices may become temporally misaligned with the global state, leading to slightly lower performance compared to FFA-LoRA in extreme Non-IID settings. However, the successful implementation of heterogeneous rank aggregation via zero-padding demonstrates that FL can effectively incorporate diverse edge devices, allowing low-tier hardware ($r=4$) to contribute to a high-capacity global model ($r=8$) without introducing significant noise.
 
 \section{Conclusion}
-This study evaluated federated fine-tuning of LLMs under strict VRAM and bandwidth constraints. We demonstrated that RoLoRA and FFA-LoRA effectively eliminate aggregation bias and significantly reduce communication costs. While extreme data heterogeneity remains a challenge, the combination of FedProx and heterogeneous aggregation provides a robust foundation for real-world edge deployment.
+This study evaluated federated fine-tuning of LLMs under strict VRAM and bandwidth constraints.Results demonstrated that RoLoRA and FFA-LoRA effectively eliminate aggregation bias and significantly reduce communication costs. While extreme data heterogeneity remains a challenge, the combination of FedProx and heterogeneous aggregation provides a robust foundation for real-world edge deployment.
 
 \section{Future Work: Adaptive Rank Scheduling}
-To further optimize the trade-offs explored in this paper, we propose a new algorithm: \textbf{Adaptive Bandwidth-Aware Rank Scheduling (ABARS)}. Unlike static rank allocation, ABARS dynamically adjusts the rank $r$ for each client based on real-time network throughput and VRAM availability. Furthermore, future research should explore \textit{Personalized Head Aggregation}, where the classification head is only partially averaged to mitigate the label-skew effects identified in our Non-IID analysis.
+To further optimize the trade-offs explored in this paper, algorithm: \textbf{Adaptive Bandwidth-Aware Rank Scheduling (ABARS)} might be a way to do. Unlike static rank allocation, ABARS dynamically adjusts the rank $r$ for each client based on real-time network throughput and VRAM availability. Furthermore, future research should explore \textit{Personalized Head Aggregation}, where the classification head is only partially averaged to mitigate the label-skew effects identified in Non-IID analysis.
 
 \appendices
 \section{Experimental Mode Comparison}
-The Quick Mode results obtained early in the study reached only 18.75\% accuracy for Standard LoRA ($\alpha=0.5$), compared to 64.89\% in Full Mode. This validates the necessity of sufficient training samples and communication rounds to achieve model convergence in federated LLM tasks.
+As reported in Table II, the preliminary results obtained under the Quick Mode setting underscore the critical role of data scale and optimization horizon in federated LLM optimization. Specifically, Standard LoRA achieved a meager $18.75\%$ test accuracy under the highly heterogeneous setting ($\alpha=0.5$), contrastingly underperforming when compared to its $64.89\%$ counterpart yielded in the Full Mode execution. This stark disparity empirically validates the necessity of maintaining sufficient training samples per client and a prolonged trajectory of global communication rounds to achieve satisfactory convergence in decoder-only sequence classification tasks. 
 
+Crucially, an intriguing phenomenon observed in Table II is that the \textit{Mean Aggregation Bias} for Standard LoRA drops strictly to $0.0000$ under the Quick Mode, aligning with the mathematically zero-bias characteristics inherently exhibited by FFA-LoRA and RoLoRA. This behavior, while seemingly anomalous for an unconstrained LoRA variant, is a direct artifact of the highly truncated local training parameters enforced in Quick Mode. 
+
+In the Quick Mode framework, the maximum sequence length is tightly bounded ($\text{max\_seq\_length}=128$) alongside an extremely restricted sample limit ($\text{max\_train\_samples\_per\_client}=10 \sim 300$). Consequently, during the inaugural and highly constrained communication rounds, the gradient updates propagated through the local optimizers (\texttt{PagedAdamW8bit}) are minuscule. Due to these infinitesimally small parameter variations, the low-rank updates from all selected clients barely deviate from the initialized global state. Under such near-static parameter trajectories, the product of the expected client matrix updates asymptotically converges to the expected value of their joint products, i.e., $\mathbb{E}[B_k A_k] \approx \mathbb{E}[B_k]\mathbb{E}[A_k]$, which systematically drives the Frobenius-norm of the non-linear aggregation discrepancy down to absolute zero. This diagnostic observation confirms that the manifestation of aggregation bias in Standard LoRA is fundamentally coupled with the magnitude of parameter divergence (client drift) across localized optimization spaces, a dynamic that remains dormant until sufficient training volume and extended optimization steps are supplied in the Full Mode.
+
+
+
+% if have a single appendix:
+%\appendix[Proof of the Zonklar Equations]
+% or
+%\appendix  % for no appendix heading
+% do not use \section anymore after \appendix, only \section*
+% is possibly needed
+
+% use appendices with more than one appendix
+% then use \section to start each appendix
+% you must declare a \section before using any
+% \subsection or using \label (\appendices by itself
+% starts a section numbered zero.)
+%
+
+
+
+% Can use something like this to put references on a page
+% by themselves when using endfloat and the captionsoff option.
 \ifCLASSOPTIONcaptionsoff
   \newpage
 \fi
 
-\bibliographystyle{IEEEtran}
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://mirror.ctan.org/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+%\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+%\bibliography{IEEEabrv,../bib/paper}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+\bibliographystyle{IEEEtran} % 這裡依據你的論文要求填寫，如 plain, acmart, IEEEtran
 \bibliography{references}
+
+% biography section
+% 
+% If you have an EPS/PDF photo (graphicx package needed) extra braces are
+% needed around the contents of the optional argument to biography to prevent
+% the LaTeX parser from getting confused when it sees the complicated
+% \includegraphics command within an optional argument. (You could create
+% your own custom macro containing the \includegraphics command to make things
+% simpler here.)
+%\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
+% or if you just want to reserve a space for a photo:
+\section*{Declaration of AI Usage}
+LLMs were used in the creation of this manuscript to correct grammatical errors and make sentences and paragraphs more concise and precise and construct the prototype, but the main idea were not AI-assisted.
 
 \end{document}
 

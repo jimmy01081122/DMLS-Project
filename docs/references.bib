@@ -1,56 +1,128 @@
-@article{hu2021lora,
-  title={Lora: Low-rank adaptation of large language models},
-  author={Hu, Edward J and Shen, Yelong and Wallis, Phillip and Allen-Zhu, Zeyuan and Li, Yuanzhi and Wang, Shean and Wang, Lu and Chen, Weizhu},
-  journal={arXiv preprint arXiv:2106.09685},
-  year={2021}
-}
-
 @inproceedings{mcmahan2017communication,
-  title={Communication-efficient learning of deep networks from decentralized data},
-  author={McMahan, Brendan and Moore, Ewan and Ramage, Daniel and Hampson, Seth and y Arcas, Blaise Aguera},
-  booktitle={Artificial intelligence and statistics},
-  pages={1273--1282},
-  year={2017},
-  organization={PMLR}
+  title={Communication-Efficient Learning of Deep Networks from Decentralized Data},
+  author={H. B. McMahan and Eider Moore and Daniel Ramage and S.C.D. Hampson and Blaise Ag{\"u}era y Arcas},
+  booktitle={International Conference on Artificial Intelligence and Statistics},
+  year={2016},
+  url={https://api.semanticscholar.org/CorpusID:14955348}
 }
-
 @article{kairouz2021advances,
-  title={Advances and open problems in federated learning},
-  author={Kairouz, Peter and McMahan, H Brendan and Avent, Brendan and Bellet, Aur{\'e}lien and Bennis, Mehdi and Bhagoji, Arjun Nitin and Bonawitz, Kallista and Charles, Zachary and Cormode, Graham and Cummings, Rachel and others},
-  journal={Foundations and Trends{\textregistered} in Machine Learning},
-  volume={14},
-  number={1--2},
-  pages={1--210},
-  year={2021},
-  publisher={Now Publishers, Inc.}
+author = {Kairouz, Peter and McMahan, H. Brendan and Avent, Brendan and Bellet, Aur\'{e}lien and Bennis, Mehdi and Nitin Bhagoji, Arjun and Bonawitz, Kallista and Charles, Zachary and Cormode, Graham and Cummings, Rachel and D’Oliveira, Rafael G. L. and Eichner, Hubert and El Rouayheb, Salim and Evans, David and Gardner, Josh and Garrett, Zachary and Gasc\'{o}n, Adri\`{a} and Ghazi, Badih and Gibbons, Phillip B. and Gruteser, Marco and Harchaoui, Zaid and He, Chaoyang and He, Lie and Huo, Zhouyuan and Hutchinson, Ben and Hsu, Justin and Jaggi, Martin and Javidi, Tara and Joshi, Gauri and Khodak, Mikhail and Konecn\'{y}, Jakub and Korolova, Aleksandra and Koushanfar, Farinaz and Koyejo, Sanmi and Lepoint, Tancr\`{e}de and Liu, Yang and Mittal, Prateek and Mohri, Mehryar and Nock, Richard and \"{O}zg\"{u}r, Ayfer and Pagh, Rasmus and Qi, Hang and Ramage, Daniel and Raskar, Ramesh and Raykova, Mariana and Song, Dawn and Song, Weikang and Stich, Sebastian U. and Sun, Ziteng and Suresh, Ananda Theertha and Tram\`{e}r, Florian and Vepakomma, Praneeth and Wang, Jianyu and Xiong, Li and Xu, Zheng and Yang, Qiang and Yu, Felix X. and Yu, Han and Zhao, Sen},
+title = {Advances and Open Problems in Federated Learning},
+year = {2021},
+issue_date = {Jun 2021},
+publisher = {Now Publishers Inc.},
+address = {Hanover, MA, USA},
+volume = {14},
+number = {1–2},
+issn = {1935-8237},
+url = {https://doi.org/10.1561/2200000083},
+doi = {10.1561/2200000083},
+abstract = {Federated learning (FL) is a machine learning setting where many clients (e.g., mobile devices or whole organizations) collaboratively train a model under the orchestration of a central server (e.g., service provider), while keeping the training data decentralized. FL embodies the principles of focused data collection and minimization, and can mitigate many of the systemic privacy risks and costs resulting from traditional, centralized machine learning and data science approaches. Motivated by the explosive growth in FL research, this monograph discusses recent advances and presents an extensive collection of open problems and challenges.},
+journal = {Found. Trends Mach. Learn.},
+month = jun,
+pages = {1–210},
+numpages = {214}
 }
 
-@article{li2020federated,
-  title={Federated optimization in heterogeneous networks},
-  author={Li, Tian and Sahu, Anit Kumar and Zaheer, Manzil and Sanjabi, Maziar and Talwalkar, Ameet and Smith, Virginia},
-  journal={Proceedings of Machine Learning and Systems},
-  volume={2},
-  pages={429--450},
-  year={2020}
+@article{hu2021lora,
+  title={{L}o{RA}: {L}ow-{R}ank {A}daptation of {L}arge {L}anguage {M}odels},
+  author={J. Edward Hu and Yelong Shen and Phillip Wallis and Zeyuan Allen-Zhu and Yuanzhi Li and Shean Wang and Weizhu Chen},
+  journal={ArXiv},
+  year={2021},
+  volume={abs/2106.09685},
+  url={https://api.semanticscholar.org/CorpusID:235458009}
+}
+
+
+
+@inproceedings{zhang2023fedpet,
+    title = "{F}ed{PET}uning: When Federated Learning Meets the Parameter-Efficient Tuning Methods of Pre-trained Language Models",
+    author = "Zhang, Zhuo  and
+      Yang, Yuanhang  and
+      Dai, Yong  and
+      Wang, Qifan  and
+      Yu, Yue  and
+      Qu, Lizhen  and
+      Xu, Zenglin",
+    editor = "Rogers, Anna  and
+      Boyd-Graber, Jordan  and
+      Okazaki, Naoaki",
+    booktitle = "Findings of the Association for Computational Linguistics: ACL 2023",
+    month = jul,
+    year = "2023",
+    address = "Toronto, Canada",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.findings-acl.632/",
+    doi = "10.18653/v1/2023.findings-acl.632",
+    pages = "9963--9977",
+    abstract = "With increasing concerns about data privacy, there is an increasing necessity of fine-tuning pre-trained language models (PLMs) for adapting to downstream tasks located in end-user devices or local clients without transmitting data to the central server. This urgent necessity therefore calls the research of investigating federated learning (FL) for PLMs. However, large PLMs bring the curse of prohibitive communication overhead and local model adaptation costs for the FL system. To this end, we investigate the parameter-efficient tuning (PETuning) of PLMs and develop a corresponding federated benchmark for four representative PETuning methods, dubbed FedPETuning. Specifically, FedPETuning provides the first holistic empirical study of representative PLMs tuning methods in FL, covering privacy attacks, performance comparisons, and resource-constrained analysis. Intensive experimental results have indicated that FedPETuning can efficiently defend against privacy attacks and maintains acceptable performance with reducing heavy resource consumption. The open-source code and data are available at \url{https://github.com/SMILELab-FL/FedPETuning}."
 }
 
 @article{zhao2018federated,
-  title={Federated learning with non-iid data},
-  author={Zhao, Yue and Li, Mu and Lai, Liangzhen and Suda, Naveen and Civin, Damon and Chandra, Vikas},
-  journal={arXiv preprint arXiv:1806.00582},
-  year={2018}
+doi = {10.48550/ARXIV.1806.00582},
+  url = {https://arxiv.org/abs/1806.00582},
+  author = {Zhao, Yue and Li, Meng and Lai, Liangzhen and Suda, Naveen and Civin, Damon and Chandra, Vikas},
+  keywords = {Machine Learning (cs.LG), Machine Learning (stat.ML), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title = {Federated Learning with Non-IID Data},
+  publisher = {arXiv},
+  year = {2018},
+  copyright = {arXiv.org perpetual, non-exclusive license}
 }
 
-@article{zhang2023fedpet,
-  title={Fedpet: Federated parameter-efficient fine-tuning of pre-trained models},
-  author={Zhang, Zeyi and Luan, Yujia and Yang, Yiran and Wang, Shiqi and Wang, Jiacheng and others},
-  journal={arXiv preprint arXiv:2306.05151},
-  year={2023}
+@inproceedings{ffa_lora_paper,
+title={Improving {L}o{RA} in {P}rivacy-preserving {F}ederated Learning},
+author={Youbang Sun and Zitao Li and Yaliang Li and Bolin Ding},
+booktitle={The Twelfth International Conference on Learning Representations},
+year={2024},
+url={https://openreview.net/forum?id=NLPzL6HWNl}
 }
 
-@inproceedings{dettmers2024qlora,
-  title={QLoRA: Efficient Finetuning of Quantized LLMs},
-  author={Dettmers, Tim and Pagnoni, Artidoro and Holtzman, Ari and Zettlemoyer, Luke},
-  booktitle={Advances in Neural Information Processing Systems},
-  year={2024}
+@misc{rolora_paper,
+      title={Robust Federated Finetuning of LLMs via Alternating Optimization of LoRA}, 
+      author={Shuangyi Chen and Yuanxin Guo and Yue Ju and Harik Dalal and Zhongwen Zhu and Ashish Khisti},
+      year={2025},
+      eprint={2502.01755},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2502.01755}, 
+}
+
+
+@misc{li2020federated,
+      title={Federated {O}ptimization in {H}eterogeneous {N}etworks}, 
+      author={Tian Li and Anit Kumar Sahu and Manzil Zaheer and Maziar Sanjabi and Ameet Talwalkar and Virginia Smith},
+      year={2020},
+      eprint={1812.06127},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/1812.06127}, 
+}
+
+@misc{mao2021communication,
+      title={Communication Efficient Federated Learning with Adaptive Quantization}, 
+      author={Yuzhu Mao and Zihao Zhao and Guangfeng Yan and Yang Liu and Tian Lan and Linqi Song and Wenbo Ding},
+      year={2021},
+      eprint={2104.06023},
+      archivePrefix={arXiv},
+      primaryClass={cs.DC},
+      url={https://arxiv.org/abs/2104.06023}, 
+}
+@misc{xie2019asynchronous,
+      title={Asynchronous Federated Optimization}, 
+      author={Cong Xie and Sanmi Koyejo and Indranil Gupta},
+      year={2020},
+      eprint={1903.03934},
+      archivePrefix={arXiv},
+      primaryClass={cs.DC},
+      url={https://arxiv.org/abs/1903.03934}, 
+}
+
+@misc{dettmers2024qlora,
+      title={QLoRA: Efficient Finetuning of Quantized LLMs}, 
+      author={Tim Dettmers and Artidoro Pagnoni and Ari Holtzman and Luke Zettlemoyer},
+      year={2023},
+      eprint={2305.14314},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2305.14314}, 
 }

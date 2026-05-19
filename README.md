@@ -41,20 +41,27 @@ python3 src/plot_results.py
 ```
 
 ## Project Structure
-- `src/main.py`: Core FL framework and PEFT logic.
-- `src/plot_results.py`: Visualization suite.
-- `docs/`: Academic reports (LaTeX/Markdown).
-- `results/`: CSVs and analytical charts.
-- `checkpoints/`: Model states for reproducibility.
+- `src/`: Core implementation.
+  - `main.py`: Federated Learning framework and PEFT logic.
+  - `plot_results.py`: Visualization suite for log analysis.
+- `docs/`: Academic reports and reference materials.
+  - `finalreport.tex`: **Authoritative IEEE Journal Version.**
+  - `report_zh.md`: Comprehensive Research Report (Chinese).
+  - `report_en.tex`: Preliminary English Report (LaTeX).
+  - `data_record.tex`: Raw Experimental Data Record.
+  - `references.bib`: BibTeX bibliography.
+- `results/`: Analytical charts (PNG) and raw CSV data.
+- `checkpoints/`: Preserved model adapter weights for reproducibility.
+- `logs/`: Full experimental execution logs.
 
 ## Documentation
-For a detailed mathematical framework and analysis, please refer to:
-- [English Academic Report (LaTeX)](docs/report_en.tex)
+The authoritative version of the research findings is maintained in the IEEE Journal format:
+- [Final Academic Report (IEEE LaTeX)](docs/finalreport.tex)
 - [Chinese Research Report (Markdown)](docs/report_zh.md)
-- [Verification Guide (SUMMARY.md)](SUMMARY.md)
+- [Verification & Reproducibility Guide (SUMMARY.md)](SUMMARY.md)
 
 
-## AI Tool aid
+## AI Tool Aid
 * Gemini CLI
 ## License
 This project is licensed under the MIT License.
